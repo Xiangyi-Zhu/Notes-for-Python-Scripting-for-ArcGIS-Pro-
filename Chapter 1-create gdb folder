@@ -1,0 +1,7 @@
+#how to create geodatabase file in folder
+import arcpy, os
+ws = "G:/Desktop/theaimfolder"
+gdb="newcreateddatabase"
+arcpy.env.workspace = ws
+arcpy.management.CreateFileGDB(ws, gdb)
+#Now we get a new geodatabase file, "newcreateddatabade", in folder theaimfolder, which located in G:/Desktop
