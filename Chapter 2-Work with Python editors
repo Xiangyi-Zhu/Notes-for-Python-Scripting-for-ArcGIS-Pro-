@@ -1,0 +1,8 @@
+#This chapter introduces three python editors (IDEs), namely, IDLE, Spyder (can be downloaded in clone arcgispro-py3 environment), and PyCharm. 
+#To check the environment used within IDLE (there are two underscores before and after file):
+import numpy
+print(numpy.__file__)
+#This code prints the location where numpy package reside: C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\lib\site-packages\numpy\__init__.py
+#The Get Count tool is used to determine the number of rows for a feature class
+count=arcpy.management.GetCount("parks")
+print(count)
