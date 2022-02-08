@@ -1,0 +1,13 @@
+#Chapter 5: Geoprocessing using Python
+#5.1 Introduction
+#This chapter provides an overview of the functionality of ArcPy with a focus on using geoprocessing tool.
+#Establishing environments, setting path to data, and managing licenses
+
+#5.2 Using the ArcPy package
+#ArcPy is organized into modules, functions, and classes, which will be illustrated.
+
+#5.3 Importing ArcPy
+import arcpy
+#arcpy includes several modules, arcpy.data (for data), arcpy.mp (for map scripting), arcpy.ia (for image analysis
+#and interpretation), arcpy.sa (for map algebra).
+#ArcPy package is part of the default arcgispro-py3 environment
