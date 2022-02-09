@@ -1,0 +1,46 @@
+#Chapter 8 - Manipulating spatial and tabular data
+#8.1 Introduction
+#outline: ArcPy data access module arcpy.da (for working with data) / cursor / validation of text and field name 
+
+#8.2 Using cursor to access data
+#Cursor (database technology term) can be used to work with the rows in a table / a list of records
+#(Records in a table are referred to as rows)
+
+#Three cursor classes:
+#Search Cursor - find specific records, similar to performing a query - arcpy.da.SearchCursor
+#Insert Cursor - add new rows to a table - arcpy.da.InsertCursor
+#Updata Cursor - update and delete rows from a table - arcpy.da.UpdateCursor
+#Cursor methods in each cursor class:
+#Search Cursor - da.SearchCursor - reset() : resets the cursor back to the first row
+#Insert Cursor - da.InsertCursor - insertRow(row): insert a row object into the table
+#Update Cursor - da.UpdateCursor - deleteRow() / reset() / updateRow(row)
+
+#ArcPy also contains cursor functions: arcpy.SearchCursor(), arcpy.UpdateCursor(), arcpy.InsertCursor()
+#The cursor classes in data access module provides much better performance than these cursor functions, 
+#especially for larger dataset
+#The legacy ArcPy cursor functions are still functional and valid, but their use is not encouraged, they are for
+#support backward compatibility
+
+#Cursors navigate only in a forward direction
+
+#All three cursors have two required arguments: an input table and a list (or tuple) of field names
+#General syntax for each cursor:
+arcpy.da.InsertCursor(in_table, field_names)
+arcpy.da.SearchCursor(in_table, field_names, {where_clause}, {spatial_reference}, {explore_to_points} {sql_clause})
+arcpy.da.UpdateCursor(in_table, field_names, {where_clause}, {spatial_reference}, {explore_to_points} {sql_clause})
+
+#Example: using a search cursor to iterate over rows in a table
+import arcpy
+fc = "C:/Data/study.gdb/roads"
+cursor = arcpy.da.SearchCursor(fc, "STREET_NAME") #for more than one field list or tuple is required e.g. ["STREET_NAME", "STREET_TYPE"]
+for row in cursor:
+   print("Street name = {0}".format(row[0]))
+
+   
+
+
+
+
+
+
+
