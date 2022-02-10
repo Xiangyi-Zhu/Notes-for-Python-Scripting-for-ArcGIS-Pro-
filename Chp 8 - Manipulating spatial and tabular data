@@ -32,11 +32,59 @@ arcpy.da.UpdateCursor(in_table, field_names, {where_clause}, {spatial_reference}
 #Example: using a search cursor to iterate over rows in a table
 import arcpy
 fc = "C:/Data/study.gdb/roads"
-cursor = arcpy.da.SearchCursor(fc, "STREET_NAME") #for more than one field list or tuple is required e.g. ["STREET_NAME", "STREET_TYPE"]
+cursor = arcpy.da.SearchCursor(fc, "STREET_NAME") #create a cursor object #for more than one field list or tuple is required e.g. ["STREET_NAME", "STREET_TYPE"]
 for row in cursor:
    print("Street name = {0}".format(row[0]))
+   
+#Cursor also support with statement, which is recommended when working with cursors
+#With statement has advantage of guaranteeing closure, releasing data locks, and resetting iteration, 
+#regardless whether or not the cursor run sucessfully
+import arcpy
+fc = "C:/Data/study.gdb/roads"
+with arcpy.da.SearchCursor(fc, "STREET_NAME") as cursor:
+   for row in cursor:
+      print("Street name = {0}".format(row[0]))
+
+#Example: insert a new row
+import arcpy
+fc = "C:/Data/study.gdb/roads"
+with arcpy.da.InsertCursor(fc, "STREET_NAME") as cursor:
+   cursor.insertRow(["New STREET"]) #the new values must identified as list or tuple which is different from the last example
+   
+#Example: using a loop with insertRow method
+import arcpy
+fc = "C:/Data/study.gdb/roads"
+with arcpy.da.InsertCursor(fc, "STREET_NAME") as cursor:
+   x = 1
+   while x <= 5:
+      cursor.insertRow(["NEW STREET"])
+      x += 1
+#By default, the new rows are inserted at the bottom of the table. Others values which are not included in 
+#the cursor but in others fields in the table are assigned the field's default value,
+#Typically, this value will be null.
+#Although the insert cursor add new rows to the specified field, no new geometry is created. (Chapter 9)
+
+#Example: the cursor object is created using the UpdateCursor class 
+import arcpy
+fc = "C:/Data/study.gdb/zones"
+with arcpy.da.UpdateCursor(fc, ["ACRES", "SHAPE_AREA"]) as cursor:
+   for row in cursor:
+      row[0] = row[1] / 43560
+      cursor.updateRow(row)
+#using Calculate Field tool can also be used to obtain the same result
+
+
+
+
+
+
 
    
+
+
+
+
+
 
 
 
