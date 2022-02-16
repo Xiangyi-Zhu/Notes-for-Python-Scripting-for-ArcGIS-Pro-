@@ -1,12 +1,16 @@
 #Chapter 8 - Manipulating spatial and tabular data
 #8.1 Introduction
-#outline: ArcPy data access module arcpy.da (for working with data) / cursor / validation of text and field name 
+#outline: ArcPy data access module arcpy.da (for working with data) / cursor: iterate over rows in a table / validation of text and field name 
 
 #8.2 Using cursor to access data
 #Cursor (database technology term) can be used to work with the rows in a table / a list of records
 #(Records in a table are referred to as rows)
+with arcpy.da.SearchCursor('study_points_projected.shp',
+                           ['Spot_Name', 'distance_t']) as cursor:
+                           print(type(cursor)) #Output: <class 'da.SearchCursor'> 
 
 #Three cursor classes:
+#All three cursors classes create a cursor object which can be used to access row object
 #Search Cursor - find specific records, similar to performing a query - arcpy.da.SearchCursor
 #Insert Cursor - add new rows to a table - arcpy.da.InsertCursor
 #Updata Cursor - update and delete rows from a table - arcpy.da.UpdateCursor
@@ -21,13 +25,24 @@
 #The legacy ArcPy cursor functions are still functional and valid, but their use is not encouraged, they are for
 #support backward compatibility
 
-#Cursors navigate only in a forward direction
+#Cursors navigate only in a forward direction, so do not forget to reset your cursor, if a script must make multiple 
+#passes over the data through iteration
 
 #All three cursors have two required arguments: an input table and a list (or tuple) of field names
-#General syntax for each cursor:
+#General syntax for each cursor: ({} means optinal arguments)
 arcpy.da.InsertCursor(in_table, field_names)
 arcpy.da.SearchCursor(in_table, field_names, {where_clause}, {spatial_reference}, {explore_to_points} {sql_clause})
 arcpy.da.UpdateCursor(in_table, field_names, {where_clause}, {spatial_reference}, {explore_to_points} {sql_clause})
+#Each row retrieved from a table by using a cursor is returned as a list (or tuple) 
+#PS. I test the following code, cursor here returned a tuple
+with arcpy.da.SearchCursor('study_points_projected.shp',
+                           ['Spot_Name', 'distance_t']) as cursor:
+    for row in cursor:
+        if row[1] != 0:
+            print(row[0])
+            print(cursor)
+#Output: USC Founders Apartments
+#         ('USC Founders Apartments', 0.6)
 
 #Example: using a search cursor to iterate over rows in a table
 import arcpy
