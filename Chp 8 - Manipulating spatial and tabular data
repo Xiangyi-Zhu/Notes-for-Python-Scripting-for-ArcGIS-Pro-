@@ -43,6 +43,7 @@ with arcpy.da.SearchCursor('study_points_projected.shp',
             print(cursor)
 #Output: USC Founders Apartments
 #         ('USC Founders Apartments', 0.6)
+print(type(cursor)) #Output: <class 'da.SearchCursor'>
 
 #Example: using a search cursor to iterate over rows in a table
 import arcpy
